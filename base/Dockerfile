@@ -43,10 +43,12 @@ RUN set -eux; \
     gosu nobody true; \
     dnf install -y epel-release 'dnf-command(copr)' 'dnf-command(config-manager)' ; \
     dnf -y config-manager --set-enabled crb ; \
-    dnf -y copr --hub build.almalinux.org enable eabdullin1/openqa ; \
-    dnf install --nodocs --setopt install_weak_deps=false -y shadow-utils \
-      git-core nano catatonit-0.1.7 which psmisc nfs-utils iputils postgresql \
-      zip xz rsync withlock shadow-utils-subid; \
+# copr bug, always points to x84_64 repo results error in other arch
+#    dnf -y copr --hub build.almalinux.org enable eabdullin1/openqa ; \
+    curl -L https://build.almalinux.org/pulp/content/copr/eabdullin1-openqa-almalinux-9-${ARCH}-dr/config.repo -o /etc/yum.repos.d/openqa.repo ; \
+    dnf install --nodocs --setopt install_weak_deps=false -y shadow-utils shadow-utils-subid \
+      git-core nano which psmisc nfs-utils iputils postgresql \
+      zip xz rsync withlock catatonit-0.1.7 tini; \
     dnf clean all ; \
     groupadd -r -g 700 geekotest; \
     groupadd -r -g 701 _openqa-worker; \

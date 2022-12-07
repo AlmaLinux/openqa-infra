@@ -4,7 +4,6 @@ LABEL author Bala Raman <srbala@gmail.com>
 # OpenQA Worker Node Image
 #
 RUN dnf install -y --nodocs openqa-worker \
-    edk2-ovmf \
     guestfs-tools \
     libguestfs-xfs \
     libvirt-daemon-config-network \
@@ -12,12 +11,9 @@ RUN dnf install -y --nodocs openqa-worker \
     python3-libguestfs \
     virt-install \
     qemu-kvm \
-    ipxe-roms-qemu \
-    && dnf clean all; \
-# Conditional install step, but package already installed
-#    (dnf install -y libvirt-daemon-driver-qemu qemu-tools qemu-device-display-virtio-gpu qemu-device-display-virtio-gpu-ccw qemu-device-display-virtio-gpu-gl qemu-device-display-virtio-gpu-pci qemu-device-display-virtio-gpu-pci-gl ||:) && \
-#    (dnf install -y edk2-aarch64 ||:) && \
-#    dnf clean all && \
+    ipxe-roms-qemu ; \
+    dnf install -y https://repo.almalinux.org/almalinux/9/AppStream/x86_64/os/Packages/edk2-ovmf-20220526git16779ede2d36-3.el9.noarch.rpm; \
+    dnf clean all; \
     mkdir -p /root/qemu
 
 COPY kvm-mknod.sh /root/qemu/kvm-mknod.sh
