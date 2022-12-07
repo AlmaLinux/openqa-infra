@@ -1,4 +1,4 @@
-FROM almalinux:9
+FROM fedora:37
 LABEL AUTHOR="Bala Raman <srbala@gmail.com>"
 #
 # Base image container for OpenQA 
@@ -41,9 +41,6 @@ RUN set -eux; \
 # verify that the binary works
     gosu --version; \
     gosu nobody true; \
-    dnf install -y epel-release 'dnf-command(copr)' 'dnf-command(config-manager)' ; \
-    dnf -y config-manager --set-enabled crb ; \
-    dnf -y copr --hub build.almalinux.org enable eabdullin1/openqa ; \
     dnf install --nodocs --setopt install_weak_deps=false -y shadow-utils \
       git-core nano catatonit which psmisc nfs-utils iputils postgresql \
       zip xz rsync withlock; \
