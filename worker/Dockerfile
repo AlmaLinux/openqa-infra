@@ -12,6 +12,7 @@ RUN dnf install -y --nodocs openqa-worker \
     virt-install \
     qemu-kvm \
     ipxe-roms-qemu ; \
+# Temp Workaround for noarch package
     dnf install -y https://repo.almalinux.org/almalinux/9/AppStream/x86_64/os/Packages/edk2-ovmf-20220526git16779ede2d36-3.el9.noarch.rpm; \
     dnf clean all; \
     mkdir -p /root/qemu
@@ -26,8 +27,6 @@ RUN chmod +x /root/qemu/kvm-mknod.sh && \
     mkdir -p /data/factory /data/tests /data/conf && \
     rm -rf /etc/openqa/client.conf /etc/openqa/workers.ini && \
     mkdir -p /var/lib/openqa/share && \
-    ln -s /data/conf/client.conf /etc/openqa/client.conf && \
-    ln -s /data/conf/workers.ini /etc/openqa/workers.ini && \
     ln -s /data/factory /var/lib/openqa/share/factory && \
     ln -s /data/tests /var/lib/openqa/share/tests && \
     # set proper ownership and file modes
