@@ -45,8 +45,8 @@ RUN set -eux; \
     dnf -y config-manager --set-enabled crb ; \
     dnf -y copr --hub build.almalinux.org enable eabdullin1/openqa ; \
     dnf install --nodocs --setopt install_weak_deps=false -y shadow-utils \
-      git-core nano catatonit which psmisc nfs-utils iputils postgresql \
-      zip xz rsync withlock; \
+      git-core nano catatonit-0.1.7 which psmisc nfs-utils iputils postgresql \
+      zip xz rsync withlock shadow-utils-subid; \
     dnf clean all ; \
     groupadd -r -g 700 geekotest; \
     groupadd -r -g 701 _openqa-worker; \
@@ -56,10 +56,11 @@ RUN set -eux; \
     usermod -aG wheel,qemu,libvirt,kvm -v 3100001-3300000 -w 3100001-3300000  geekotest; \
     useradd -r -g 701 -u 701 -c "openQA worker" -m -d /var/lib/empty  _openqa-worker; \
     usermod -aG wheel,qemu,libvirt,kvm -v 3300001-3500000 -w 3300001-3500000 _openqa-worker; \
+    mkdir -p /etc/sudoers.d ; \
     echo "geekotest ALL=(ALL)     NOPASSWD: ALL" > /etc/sudoers.d/geekotest ; \
     echo "_openqa-worker ALL=(ALL)     NOPASSWD: ALL" > /etc/sudoers.d/openqawk ; \
     systemctl set-default multi-user.target; \
-    ln -sf /usr/libexec/podman/catatonit /usr/local/bin/catatonit ;
+    ln -sf /usr/libexec/catatonit /usr/local/bin/catatonit ;
 
 # CMD ["/usr/local/bin/run_openqa.sh"]
 CMD ["/sbin/init"]
