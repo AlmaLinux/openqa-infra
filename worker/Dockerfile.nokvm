@@ -1,0 +1,38 @@
+FROM srbala/openqa:base
+LABEL author Bala Raman <srbala@gmail.com>
+#
+# OpenQA Worker Node Image
+#
+RUN dnf install -y --nodocs openqa-worker \
+#    guestfs-tools \
+#    libguestfs-xfs \
+    libvirt-daemon-config-network \
+    perl-REST-Client \
+#    python3-libguestfs \
+#    virt-install \
+#    qemu-kvm \
+    ipxe-roms-qemu ; \
+# Temp Workaround for noarch package
+    dnf install -y https://repo.almalinux.org/almalinux/9/AppStream/x86_64/os/Packages/edk2-ovmf-20220526git16779ede2d36-3.el9.noarch.rpm; \
+    dnf clean all; \
+    mkdir -p /root/qemu
+
+COPY kvm-mknod.sh /root/qemu/kvm-mknod.sh
+COPY run_openqa_worker.sh /run_openqa_worker.sh
+# ensure executability in case we loose file permissions, e.g. within open
+# build service when downloading files into the container build project
+RUN chmod +x /root/qemu/kvm-mknod.sh && \
+    chmod a+x /run_openqa_worker.sh && \
+    # set-up shared data and configuration
+    mkdir -p /data/factory /data/tests /data/conf && \
+    rm -rf /etc/openqa/client.conf /etc/openqa/workers.ini && \
+    mkdir -p /var/lib/openqa/share && \
+    ln -s /data/factory /var/lib/openqa/share/factory && \
+    ln -s /data/tests /var/lib/openqa/share/tests && \
+    # set proper ownership and file modes
+    chown -h geekotest /var/lib/openqa/share/* && \
+    chown -R _openqa-worker /usr/share/openqa/script/worker /var/lib/openqa/cache /var/lib/openqa/pool && \
+    chmod -R ug+rw /usr/share/openqa/script/worker /var/lib/openqa/cache /var/lib/openqa/pool && \
+    find /usr/share/openqa/script/worker /var/lib/openqa/cache /var/lib/openqa/pool -type d -exec chmod ug+x {} \;
+
+ENTRYPOINT ["/run_openqa_worker.sh"]
