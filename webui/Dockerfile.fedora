@@ -1,14 +1,14 @@
-FROM srbala/openqa:base
+FROM srbala/openqa:base-fedora
 LABEL AUTHOR="Bala Raman <srbala@gmail.com>"
 #
 # OpenQA WebUI
 #
 RUN dnf install -y --nodocs \
     git-core openqa-local-db openqa-httpd git-core mod_ssl \
-    nfs-utils perl-REST-Client python3-jsonschema withlock \
-    psmisc perl-Mojolicious-Plugin-OAuth2 nano \
+    nfs-utils perl-REST-Client python3-jsonschema \
+    psmisc perl-Mojolicious-Plugin-OAuth2 \
     python3-pip python3-openqa_client openqa-python-scripts \
-    fedora-messaging python3-fedfind tini catatonit && \
+    fedora-messaging python3-fedfind && \
     dnf clean all && \
     pip install --no-cache-dir pytest pytest-testinfra tox && \
     cd /var/lib/openqa ; \

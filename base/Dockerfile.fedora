@@ -43,7 +43,7 @@ RUN set -eux; \
     gosu nobody true; \
     dnf install --nodocs --setopt install_weak_deps=false -y shadow-utils \
       git-core nano catatonit which psmisc nfs-utils iputils postgresql \
-      zip xz rsync withlock; \
+      zip xz rsync withlock tini; \
     dnf clean all ; \
     groupadd -r -g 700 geekotest; \
     groupadd -r -g 701 _openqa-worker; \

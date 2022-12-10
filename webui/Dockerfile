@@ -1,4 +1,4 @@
-FROM srbala/openqa:base
+FROM srbala/openqa:base-al9
 LABEL AUTHOR="Bala Raman <srbala@gmail.com>"
 #
 # OpenQA WebUI

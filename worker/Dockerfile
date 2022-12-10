@@ -1,19 +1,33 @@
-FROM srbala/openqa:base
+FROM srbala/openqa:base-al9
 LABEL author Bala Raman <srbala@gmail.com>
 #
 # OpenQA Worker Node Image
 #
-RUN dnf install -y --nodocs openqa-worker \
-    guestfs-tools \
-    libguestfs-xfs \
-    libvirt-daemon-config-network \
-    perl-REST-Client \
-    python3-libguestfs \
-    virt-install \
-    qemu-kvm \
-    ipxe-roms-qemu ; \
-# Temp Workaround for noarch package
-    dnf install -y https://repo.almalinux.org/almalinux/9/AppStream/x86_64/os/Packages/edk2-ovmf-20220526git16779ede2d36-3.el9.noarch.rpm; \
+RUN set -eux; \
+    ARCH="$(arch)"; \
+    case "${ARCH}" in \
+      aarch64) \
+        march="arm64" ; qarch="aarch64"; \
+        optstr="--nodocs openqa-worker perl-REST-Client qemu-system-aarch64 qemu-tools qemu-img qemu-pr-helper ipxe-roms-qemu --exclude qemu-kvm-7.0.0"; \
+        ;; \
+      ppc64le) \
+        march="ppc64el" ; qarch="ppc"; \
+        optstr="--nodocs openqa-worker perl-REST-Client qemu-system-ppc qemu-tools qemu-img qemu-pr-helper ipxe-roms-qemu "; \
+        ;; \
+      s390x) \
+        march="s390x" ; qarch="s390x"; \
+        optstr="--nodocs openqa-worker perl-REST-Client qemu-system-s390x qemu-tools qemu-img qemu-pr-helper ipxe-roms-qemu --exclude qemu-kvm-7.0.0"; \
+        ;; \         
+      x86_64) \
+        march="amd64" ; qarch="x86"; \
+        optstr="--nodocs openqa-worker perl-REST-Client qemu-system-x86 qemu-tools qemu-img qemu-pr-helper ipxe-roms-qemu --exclude qemu-kvm-7.0.0"; \
+        ;; \
+      *) \
+        echo "Unsupported arch: ${ARCH}"; \
+        exit 1; \
+        ;; \
+    esac; \
+    dnf install -y --setopt install_weak_deps=false ${optstr}; \
     dnf clean all; \
     mkdir -p /root/qemu
 
