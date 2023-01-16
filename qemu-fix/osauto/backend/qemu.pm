@@ -704,8 +704,8 @@ sub start_qemu ($self) {
     my $arch = $vars->{ARCH} // '';
     $arch = 'arm' if ($arch =~ /armv6|armv7/);
     my $is_arm = $arch eq 'aarch64' || $arch eq 'arm';
-    my $is_s390x = $arch eq 's390x'
-    my $ne_s390x = $arch ne 's390x'
+    my $is_s390x = $arch eq 's390x';
+    my $ne_s390x = $arch ne 's390x';
 
     $self->_set_graphics_backend($is_arm);
 
