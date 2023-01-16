@@ -704,6 +704,8 @@ sub start_qemu ($self) {
     my $arch = $vars->{ARCH} // '';
     $arch = 'arm' if ($arch =~ /armv6|armv7/);
     my $is_arm = $arch eq 'aarch64' || $arch eq 'arm';
+    my $is_s390x = $arch eq 's390x'
+    my $ne_s390x = $arch ne 's390x'
 
     $self->_set_graphics_backend($is_arm);
 
@@ -800,11 +802,11 @@ sub start_qemu ($self) {
     bmwqemu::diag('Initializing block device images');
     $self->{proc}->init_blockdev_images();
 
-    sp('only-migratable') if ($arch ne 's390x' && $self->can_handle({function => 'snapshots', no_warn => 1}));
+    sp('only-migratable') if ($ne_s390x && $self->can_handle({function => 'snapshots', no_warn => 1}));
     sp('chardev', 'ringbuf,id=serial0,logfile=serial0,logappend=on');
     sp('serial', 'chardev:serial0');
 
-    if ($arch ne 's390x') {
+    if ($ne_s390x) {
     if ($self->requires_audiodev) {
         my $audiodev = $vars->{QEMU_AUDIODEV} // 'intel-hda';
         my $audiobackend = $vars->{QEMU_AUDIOBACKEND} // 'none';
@@ -822,7 +824,7 @@ sub start_qemu ($self) {
     }
     {
         # Remove floppy drive device on architectures
-        sp('global', 'isa-fdc.fdtypeA=none') unless ($is_arm || $vars->{QEMU_NO_FDC_SET});
+        sp('global', 'isa-fdc.fdtypeA=none') unless ($is_s390x || $is_arm || $vars->{QEMU_NO_FDC_SET});
 
         sp('m', $vars->{QEMURAM}) if $vars->{QEMURAM};
         sp('machine', $vars->{QEMUMACHINE}) if $vars->{QEMUMACHINE};
@@ -856,7 +858,7 @@ sub start_qemu ($self) {
         # Keep additional virtio _after_ Ethernet setup to keep virtio-net as eth0
         if ($vars->{QEMU_VIRTIO_RNG} // 1) {
             sp('object', 'rng-random,filename=/dev/urandom,id=rng0');
-            sp('device', 'virtio-rng-pci,rng=rng0') if ($arch ne 's390x');
+            sp('device', 'virtio-rng-pci,rng=rng0') if ($ne_s390x);
         }
 
         sp('smbios', $vars->{QEMU_SMBIOS}) if $vars->{QEMU_SMBIOS};
@@ -900,9 +902,9 @@ sub start_qemu ($self) {
             sp(lc($attribute), $vars->{$attribute}) if $vars->{$attribute};
         }
 
-        unless ($vars->{QEMU_NO_TABLET}) {
-            sp('device', ($vars->{OFW} || $arch eq 'aarch64') ? 'nec-usb-xhci' : 'qemu-xhci') if ($arch ne 's390x');
-            sp('device', 'usb-tablet') if ($arch ne 's390x');
+        unless ($ne_s390x || $vars->{QEMU_NO_TABLET}) {
+            sp('device', ($vars->{OFW} || $arch eq 'aarch64') ? 'nec-usb-xhci' : 'qemu-xhci');
+            sp('device', 'usb-tablet');
         }
 
         sp('device', 'usb-kbd') if $use_usb_kbd;
