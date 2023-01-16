@@ -856,7 +856,7 @@ sub start_qemu ($self) {
         # Keep additional virtio _after_ Ethernet setup to keep virtio-net as eth0
         if ($vars->{QEMU_VIRTIO_RNG} // 1) {
             sp('object', 'rng-random,filename=/dev/urandom,id=rng0');
-            sp('device', 'virtio-rng-pci,rng=rng0');
+            sp('device', 'virtio-rng-pci,rng=rng0') if ($arch ne 's390x');
         }
 
         sp('smbios', $vars->{QEMU_SMBIOS}) if $vars->{QEMU_SMBIOS};
