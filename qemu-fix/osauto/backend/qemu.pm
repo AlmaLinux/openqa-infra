@@ -800,7 +800,7 @@ sub start_qemu ($self) {
     bmwqemu::diag('Initializing block device images');
     $self->{proc}->init_blockdev_images();
 
-    sp('only-migratable') if $self->can_handle({function => 'snapshots', no_warn => 1});
+    sp('only-migratable') if ($arch ne 's390x' && $self->can_handle({function => 'snapshots', no_warn => 1}));
     sp('chardev', 'ringbuf,id=serial0,logfile=serial0,logappend=on');
     sp('serial', 'chardev:serial0');
 
