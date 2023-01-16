@@ -610,7 +610,7 @@ sub start_qemu ($self) {
     }
 
     # fallback check for RHEL varients qemu-kvm
-    $qemubin = find_bin('/usr/libexec/', @execs) unless $qemubin;
+    $qemubin = find_bin('/usr/libexec/', qw(kvm qemu-kvm)) unless $qemubin;
 
     die "no kvm-img/qemu-img found\n" unless $qemuimg;
     die "no Qemu/KVM found\n" unless $qemubin;
