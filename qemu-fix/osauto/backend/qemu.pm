@@ -900,7 +900,7 @@ sub start_qemu ($self) {
             sp(lc($attribute), $vars->{$attribute}) if $vars->{$attribute};
         }
 
-        unless ($vars->{QEMU_NO_TABLET}) {
+        unless ($vars->{QEMU_NO_TABLET} && ($arch ne 's390x')) {
             sp('device', ($vars->{OFW} || $arch eq 'aarch64') ? 'nec-usb-xhci' : 'qemu-xhci');
             sp('device', 'usb-tablet');
         }
