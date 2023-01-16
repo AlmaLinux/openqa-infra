@@ -597,7 +597,7 @@ sub start_qemu ($self) {
         }
         else {
             (my $class = $vars->{WORKER_CLASS} || '') =~ s/qemu_/qemu-system\-/g;
-            my @execs = qw(kvm qemu-kvm qemu qemu-system-x86_64 qemu-system-ppc64 qemu-system-aarch64);
+            my @execs = qw(kvm qemu-kvm qemu qemu-system-x86_64 qemu-system-ppc64 qemu-system-aarch64 qemu-system-s390x);
             my %allowed = map { $_ => 1 } @execs;
             for (split(/\s*,\s*/, $class)) {
                 if ($allowed{$_}) {
@@ -608,6 +608,9 @@ sub start_qemu ($self) {
             $qemubin = find_bin('/usr/bin/', @execs) unless $qemubin;
         }
     }
+
+    # fallback check for RHEL varients qemu-kvm
+    $qemubin = find_bin('/usr/libexec/', @execs) unless $qemubin;
 
     die "no kvm-img/qemu-img found\n" unless $qemuimg;
     die "no Qemu/KVM found\n" unless $qemubin;
@@ -801,6 +804,7 @@ sub start_qemu ($self) {
     sp('chardev', 'ringbuf,id=serial0,logfile=serial0,logappend=on');
     sp('serial', 'chardev:serial0');
 
+    if ($arch ne 's390x') {
     if ($self->requires_audiodev) {
         my $audiodev = $vars->{QEMU_AUDIODEV} // 'intel-hda';
         my $audiobackend = $vars->{QEMU_AUDIOBACKEND} // 'none';
@@ -814,6 +818,7 @@ sub start_qemu ($self) {
     else {
         my $soundhw = $vars->{QEMU_SOUNDHW} // 'hda';
         sp('soundhw', $soundhw);
+    }
     }
     {
         # Remove floppy drive device on architectures
