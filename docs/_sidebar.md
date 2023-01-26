@@ -12,7 +12,8 @@
   - [Containers - details](containers-details.md)
 
 - OpenQA Tests
-  - [Tests - Basic](tests.md)
+  - [Tests - Setup](tests-setup.md)
+  - [Tests - Basic](tests-basic.md)
   - [Tests - Advanced](tests-advanced.md)
 
 - Support & References

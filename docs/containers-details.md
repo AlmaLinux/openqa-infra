@@ -106,3 +106,12 @@ docker run --network aloqa-network \
        --restart=always --network-alias worker10 --name worker10 -d \
        almalinux/openqa:worker-al9
 ```
+
+### Next Steps
+
+Verify the following and proceed to next steps.
+
+* WebUI Server contianer is up and running
+* Able to browse and login into WebUI
+* Worker nodes are running and connected server
+* Verify that workers are connected to server in admin console
