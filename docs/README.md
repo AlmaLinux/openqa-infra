@@ -2,13 +2,33 @@
 
 AlmaLinux OS testing framework implemented using OpenSUSE OpenQA test framework. This repository contains the necessary install scripts and documentation to set up the OpenQA environment.
 
-## Repos Summary
+## Quick Start
 
-There are three GitHub repos related to AlmaLinux OpenQA Testing.
+Quick Start is divided into a few parts. Use the left-side navigation to jump to any required topic. Check the sections below for hardware and software needed to work on fixes or enhancements.
 
-* [openqa-infra](https://github.com/AlmaLinux/openqa-infra) -  Contains the install and configuration scripts and essential documentation.
-* [os-autoinst-distri-almalinux](https://github.com/AlmaLinux/os-autoinst-distri-almalinux) - OpenQA Test scripts.
-* [openqa-createhdds](https://github.com/AlmaLinux/openqa-createhdds) - Utility project to create hard-disk image files for advanced test environments.
+* Summary of repositories
+* Installation
+* Tests
+
+### Repositories
+
+There are three GitHub Repositories involved in AlmaLinux OpenQA Testing.
+
+* [openqa-infra](https://github.com/AlmaLinux/openqa-infra) - Contains the install and configuration scripts (shell and Dockerfile) and essential documentation. Documentation written in Markdown language, rendered using `Doctify` library. Web pages are rendered using `gh-pages` service.
+* [os-autoinst-distri-almalinux](https://github.com/AlmaLinux/os-autoinst-distri-almalinux) - OpenQA Test scripts. Test scripts are written in Perl, and utilities and templates are written in Python and JSON. This repository also contains OpenQA needles which are used for test validation.
+* [openqa-createhdds](https://github.com/AlmaLinux/openqa-createhdds) - Utility project to create hard-disk image files from KickStarts files using Python and Libvirt Guest OS API. Some preprocessed HDDs (QCOW2 files) were used as input for advanced OpenQA tests.
+
+### Type of Installation
+
+A [single workstation](server.md) or VM install is recommended for normal test development, fixes, and enhancements. Server Web UI and Worker Node(s) are on the same device in this approach.
+
+[Docker container-based](containers.md) setup is recommended for multi-user usage environments.
+
+### Tests
+
+When the Test environment is ready, proceed to initialize the database and [load config, jobs, and schedules](tests-setup.md).
+
+Start work on [testing](tests-basic.md)! 
 
 ## What is OpenQA
 
