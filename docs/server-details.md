@@ -52,7 +52,7 @@ sudo cp /etc/openqa/openqa.ini /etc/openqa/openqa.ini.orig
 sudo bash -c "cat >/etc/openqa/openqa.ini <<'EOF'
 [global]
 branding=plain
-download_domains = almalinux.org docs.openqa.almalinux.org fedoraproject.org opensuse.org almalinux.github.io
+download_domains = almalinux.org openqa-docs.almalinux.org fedoraproject.org opensuse.org almalinux.github.io
 recognized_referers = bugs.almalinux.org git.almalinux.org almalinux.org bugzilla.suse.com bugzilla.opensuse.org progress.opensuse.org github.com gitlab.com
 
 [auth]
