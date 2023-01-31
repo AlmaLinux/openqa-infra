@@ -1,6 +1,10 @@
 # Advanced Tests
 
+Information given below helps to initiate standalong testing using OpenQA APIs.
+
 ## Kickstart Tests
+
+Kickstart file based testing can be initiated using OpenQA jobs for different types of installation methods. 
 
 ### Kickstart install - create user
 
@@ -25,6 +29,8 @@ openqa-cli api --host 'http://localhost' -X POST jobs \
     'WORKER_CLASS=qemu_x86_64' 'XRES=1024' 'YRES=768';
 ```
 
+### Kickstart install - firewall disabled
+
 ```sh
 openqa-cli api --host 'http://localhost' -X POST jobs \
     'ARCH=x86_64' 'ARCH_BASE_MACHINE=64bit' \
@@ -45,6 +51,8 @@ openqa-cli api --host 'http://localhost' -X POST jobs \
     'TEST_TARGET=ISO' \
     'WORKER_CLASS=qemu_x86_64' 'XRES=1024' 'YRES=768';
 ```
+
+### Kickstart install - firewall enabled
 
 ```sh
 openqa-cli api --host 'http://localhost' -X POST jobs \

@@ -20,7 +20,7 @@ shasum -a 256 --ignore-missing -c CHECKSUM
 
 ## ISO files testing
 
-OpenQA CLI is used to post the test. Download one or more files and make adjustment based downloaded ISO file and `FLAVOR` variable name. Possible values are `boot-iso`, `dvd-iso`, and `minimal-iso`, based on ISO variants available.
+OpenQA CLI is used to post the test. Download one or more files and make adjustment based downloaded ISO file and `FLAVOR` variable name. Possible values are `boot-iso`, `dvd-iso`, `minimal-iso`, `gome-live-iso`, `Mini-live-iso`, `KDE-live-iso`, `XFCE-live-iso`, and `MATE-live-iso` based on ISO variants available.
 
 ```sh
 openqa-cli api -X POST isos \
@@ -32,11 +32,13 @@ openqa-cli api -X POST isos \
   BUILD="-boot-$(date +%Y%m%d.%H%M%S).0"
 ```
 
-Access the server web ui to review posted jobs and their details.
+?> Development in progress for `live` images testing. Community members contributions greatly welcome for enhancements and fixes.
 
-?> OpenQA-CLI commands helps to query the jobs using APIs.
+Access the server web ui to review posted jobs and their details.
 
 ```sh
 openqa-cli api -X GET --pretty jobs/overview
 openqa-cli api -X GET --pretty jobs/1
 ```
+
+?> OpenQA-CLI commands helps to query the jobs using APIs.

@@ -28,7 +28,7 @@ A [single workstation](server.md) or VM install is recommended for normal test d
 
 When the Test environment is ready, proceed to initialize the database and [load config, jobs, and schedules](tests-setup.md).
 
-Start work on [testing](tests-basic.md)! 
+Start work on [testing](tests-basic.md)!
 
 ## What is OpenQA
 

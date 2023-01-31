@@ -3,11 +3,11 @@
 - Home
   - [Getting Started](/)
 
-- Using Baremetal or VMs
+- Install Servers/VMs
   - [Server - summary](server.md)
   - [Server - details](server-details.md)
 
-- Using Containers
+- Install Containers
   - [Containers - summary](containers.md)
   - [Containers - details](containers-details.md)
 
