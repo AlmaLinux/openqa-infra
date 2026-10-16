@@ -88,3 +88,10 @@ OpenQA Knowledge references:
 * Fedora direct installation Guide https://fedoraproject.org/wiki/OpenQA_direct_installation_guide
 * Fedora test scripts https://git.almalinux.org/srbala/os-autoinst-distri-fedora
 * Tutorial create tests Dan Cermak: https://www.youtube.com/watch?v=2zwU9_bV_zI and https://www.youtube.com/watch?v=_JvqVrBjmIU
+
+## License
+
+The install scripts and documentation in this repository are licensed under the MIT license (see `LICENSE`). Some files come from other projects and keep their own licenses:
+
+* `qemu-fix/` contains code from [os-autoinst](https://github.com/os-autoinst/os-autoinst), licensed GPL-2.0-or-later.
+* `support/dhcp-pxe/` has its own MIT license (see `support/dhcp-pxe/LICENSE`).
