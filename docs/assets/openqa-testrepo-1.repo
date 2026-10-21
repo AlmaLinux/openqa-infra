@@ -1,0 +1,6 @@
+[openqa-testrepo-1]
+name=openQA test repo 1
+baseurl=https://raw.githubusercontent.com/AlmaLinux/openqa-infra/main/docs/assets/openqa-testrepo-1
+enabled=0
+metadata_expire=30
+gpgcheck=0
